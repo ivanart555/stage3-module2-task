@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Random;
 
 public class DataGenerator {
-    private static final String AUTHORS_FILENAME = "authors.txt";
-    private static final String CONTENT_FILENAME = "content.txt";
-    private static final String NEWS_FILENAME = "news.txt";
+    private static final String AUTHORS_FILENAME = "authors";
+    private static final String CONTENT_FILENAME = "content";
+    private static final String NEWS_FILENAME = "news";
     private static final int STARTING_YEAR = 2022;
     private static final int NEWS_COUNT_TO_GENERATE = 20;
     private static final Random random = new Random();
@@ -34,7 +34,7 @@ public class DataGenerator {
             news.setTitle(getRandomLine(titlesLines));
             news.setContent(getRandomLine(contentLines));
             news.setCreateDate(generateRandomLocalDateTime());
-            news.setLastUpdateTime(LocalDateTime.now());
+            news.setLastUpdateDate(LocalDateTime.now());
             newsList.add(news);
         }
 
@@ -43,13 +43,13 @@ public class DataGenerator {
 
     }
 
-    private static List<AuthorModel> generateAuthors() {
+    public static List<AuthorModel> generateAuthors() {
         List<AuthorModel> authors = new ArrayList<>();
 
         List<String> authorsLines = ContentReader.getFileContent(AUTHORS_FILENAME);
         long counter = 1L;
         for (String element : authorsLines) {
-            authors.add(new AuthorModel(counter, element));
+            authors.add(new AuthorModel(counter, element, generateRandomLocalDateTime(), LocalDateTime.now()));
         }
 
         return authors;
