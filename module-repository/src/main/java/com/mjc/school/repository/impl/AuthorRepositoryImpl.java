@@ -1,6 +1,7 @@
 package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.BaseRepository;
+import com.mjc.school.repository.aop.OnDelete;
 import com.mjc.school.repository.datasource.Datasource;
 import com.mjc.school.repository.model.AuthorModel;
 import org.springframework.stereotype.Repository;
@@ -45,6 +46,7 @@ public class AuthorRepositoryImpl implements BaseRepository<AuthorModel, Long> {
     }
 
     @Override
+    @OnDelete
     public boolean deleteById(Long authorId) {
         List<AuthorModel> deleteList = new ArrayList<>();
         deleteList.add(this.readById(authorId).orElseThrow());

@@ -43,7 +43,7 @@ public class NewsServiceImpl implements BaseService<NewsDtoRequest, NewsDtoRespo
 
     @Override
     public List<NewsDtoResponse> readAll() {
-        return mapper.modelListToDtoList(newsRepository.readAll());
+        return mapper.newsModelListToDtoList(newsRepository.readAll());
     }
 
     @Override
@@ -52,29 +52,29 @@ public class NewsServiceImpl implements BaseService<NewsDtoRequest, NewsDtoRespo
         if (foundNews.isEmpty()) {
             throw new ServiceException(String.format(NEWS_ID_DOES_NOT_EXIST.getMessage(), newsId));
         }
-        return mapper.modelToDto(foundNews.get());
+        return mapper.newsModelToDto(foundNews.get());
     }
 
     @Override
     public NewsDtoResponse create(NewsDtoRequest createRequest) {
         validate(createRequest);
-        NewsModel news = mapper.dtoToModel(createRequest);
+        NewsModel news = mapper.newsDtoToModel(createRequest);
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         news.setCreateDate(date);
         news.setLastUpdateDate(date);
         NewsModel createdNews = newsRepository.create(news);
-        return mapper.modelToDto(createdNews);
+        return mapper.newsModelToDto(createdNews);
     }
 
     @Override
     public NewsDtoResponse update(NewsDtoRequest updateRequest) {
         validate(updateRequest);
         if (newsRepository.existById(updateRequest.id())) {
-            NewsModel news = mapper.dtoToModel(updateRequest);
+            NewsModel news = mapper.newsDtoToModel(updateRequest);
             LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
             news.setLastUpdateDate(date);
             NewsModel updatedNews = newsRepository.update(news);
-            return mapper.modelToDto(updatedNews);
+            return mapper.newsModelToDto(updatedNews);
         } else {
             throw new ServiceException(
                     String.format(NEWS_ID_DOES_NOT_EXIST.getMessage(), updateRequest.id()));

@@ -30,7 +30,7 @@ public class DataGenerator {
         for (int i = 1; i < NEWS_COUNT_TO_GENERATE + 1; i++) {
             NewsModel news = new NewsModel();
             news.setId((long) i);
-            news.setAuthorId((long) random.nextInt(authors.size()));
+            news.setAuthorId((long) random.nextInt(1, authors.size()));
             news.setTitle(getRandomLine(titlesLines));
             news.setContent(getRandomLine(contentLines));
             news.setCreateDate(generateRandomLocalDateTime());
@@ -50,6 +50,7 @@ public class DataGenerator {
         long counter = 1L;
         for (String element : authorsLines) {
             authors.add(new AuthorModel(counter, element, generateRandomLocalDateTime(), LocalDateTime.now()));
+            counter++;
         }
 
         return authors;
@@ -58,6 +59,10 @@ public class DataGenerator {
     private static String getRandomLine(List<String> content) {
         return content.get(random.nextInt(content.size() - 1));
     }
+
+//    private static Integer getRandomId(int min, int max) {
+//        return random.nextInt()
+//    }
 
     private static LocalDateTime generateRandomLocalDateTime() {
         if (STARTING_YEAR < 0) {

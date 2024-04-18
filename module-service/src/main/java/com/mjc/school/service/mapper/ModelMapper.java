@@ -1,6 +1,9 @@
 package com.mjc.school.service.mapper;
 
+import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.NewsModel;
+import com.mjc.school.service.dto.AuthorDtoRequest;
+import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
 import org.mapstruct.Mapper;
@@ -12,13 +15,23 @@ import java.util.List;
 @Mapper
 public interface ModelMapper {
 
-    List<NewsDtoResponse> modelListToDtoList(List<NewsModel> newsModelList);
+    List<NewsDtoResponse> newsModelListToDtoList(List<NewsModel> newsModelList);
 
-    NewsDtoResponse modelToDto(NewsModel newsModel);
+    NewsDtoResponse newsModelToDto(NewsModel newsModel);
 
     @Mappings({
             @Mapping(target = "createDate", ignore = true),
             @Mapping(target = "lastUpdateDate", ignore = true)
     })
-    NewsModel dtoToModel(NewsDtoRequest newsModelRequest);
+    NewsModel newsDtoToModel(NewsDtoRequest newsModelRequest);
+
+    List<AuthorDtoResponse> authorModelListToDtoList(List<AuthorModel> authorModelList);
+
+    AuthorDtoResponse authorModelToDto(AuthorModel authorModel);
+
+    @Mappings({
+            @Mapping(target = "createDate", ignore = true),
+            @Mapping(target = "lastUpdateDate", ignore = true)
+    })
+    AuthorModel authorDtoToModel(AuthorDtoRequest authorModelRequest);
 }
