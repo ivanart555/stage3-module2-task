@@ -3,12 +3,9 @@ package com.mjc.school.service.impl;
 
 import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.model.AuthorModel;
-import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.BaseService;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
-import com.mjc.school.service.dto.NewsDtoRequest;
-import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.exception.ServiceException;
 import com.mjc.school.service.mapper.ModelMapper;
 import jakarta.validation.ConstraintViolation;
@@ -27,7 +24,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import static com.mjc.school.service.exception.ServiceErrorCode.AUTHOR_ID_DOES_NOT_EXIST;
-import static com.mjc.school.service.exception.ServiceErrorCode.NEWS_ID_DOES_NOT_EXIST;
 
 @Service
 public class AuthorServiceImpl implements BaseService<AuthorDtoRequest, AuthorDtoResponse, Long> {
