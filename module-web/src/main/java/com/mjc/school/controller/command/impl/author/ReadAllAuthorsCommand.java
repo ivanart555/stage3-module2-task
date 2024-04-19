@@ -6,16 +6,12 @@ import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
 import org.springframework.stereotype.Component;
 
-import java.util.Scanner;
-
 @Component
 public class ReadAllAuthorsCommand implements Command {
     private final BaseController<AuthorDtoRequest, AuthorDtoResponse, Long> authorController;
-    private final Scanner scanner;
 
-    public ReadAllAuthorsCommand(BaseController<AuthorDtoRequest, AuthorDtoResponse, Long> authorController, Scanner scanner) {
+    public ReadAllAuthorsCommand(BaseController<AuthorDtoRequest, AuthorDtoResponse, Long> authorController) {
         this.authorController = authorController;
-        this.scanner = scanner;
     }
 
     @Override

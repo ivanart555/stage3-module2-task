@@ -3,16 +3,12 @@ package com.mjc.school.controller;
 import com.mjc.school.controller.command.Command;
 import org.springframework.stereotype.Component;
 
-import java.util.Scanner;
-
 @Component
 public class NewsMenu {
     private final Command[] commands;
-    private final Scanner scanner;
 
-    public NewsMenu(Command[] commands, Scanner scanner) {
+    public NewsMenu(Command[] commands) {
         this.commands = commands;
-        this.scanner = scanner;
     }
 
     public void displayMenu() {
@@ -38,8 +34,7 @@ public class NewsMenu {
         while (true) {
             System.out.print("Enter your choice: ");
             try {
-                choice = scanner.nextInt();
-                scanner.nextLine();
+                choice = ConsoleReader.readNumberFromUser().intValue();
                 if (choice == 0) System.exit(0);
 
                 executeCommand(choice);

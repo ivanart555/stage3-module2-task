@@ -1,22 +1,18 @@
 package com.mjc.school.controller.command.impl.author;
 
 import com.mjc.school.controller.BaseController;
-import com.mjc.school.controller.Utils;
+import com.mjc.school.controller.ConsoleReader;
 import com.mjc.school.controller.command.Command;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
 import org.springframework.stereotype.Component;
 
-import java.util.Scanner;
-
 @Component
 public class UpdateAuthorByIdCommand implements Command {
     private final BaseController<AuthorDtoRequest, AuthorDtoResponse, Long> authorController;
-    private final Scanner scanner;
 
-    public UpdateAuthorByIdCommand(BaseController<AuthorDtoRequest, AuthorDtoResponse, Long> authorController, Scanner scanner) {
+    public UpdateAuthorByIdCommand(BaseController<AuthorDtoRequest, AuthorDtoResponse, Long> authorController) {
         this.authorController = authorController;
-        this.scanner = scanner;
     }
 
     @Override
@@ -25,10 +21,10 @@ public class UpdateAuthorByIdCommand implements Command {
         String name;
 
         System.out.println("Please enter the author's id to edit:");
-        id = Utils.readNumberFromUser(scanner);
+        id = ConsoleReader.readNumberFromUser();
 
         System.out.println("Please enter new author's name:");
-        name = Utils.readStringFromUser(scanner);
+        name = ConsoleReader.readStringFromUser();
 
         AuthorDtoRequest authorDto = new AuthorDtoRequest(id, name);
 
