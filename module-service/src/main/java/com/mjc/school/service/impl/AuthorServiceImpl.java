@@ -8,6 +8,7 @@ import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
 import com.mjc.school.service.exception.ServiceException;
 import com.mjc.school.service.mapper.ModelMapper;
+import com.mjc.school.service.validator.ValidatorInstance;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.ValidationException;
@@ -29,16 +30,12 @@ import static com.mjc.school.service.exception.ServiceErrorCode.AUTHOR_ID_DOES_N
 public class AuthorServiceImpl implements BaseService<AuthorDtoRequest, AuthorDtoResponse, Long> {
     private static final Logger LOGGER = Logger.getLogger(AuthorServiceImpl.class.getName());
     private final BaseRepository<AuthorModel, Long> authorRepository;
-    private final Validator VALIDATOR =
-            Validation.byDefaultProvider()
-                    .configure()
-                    .messageInterpolator(new ParameterMessageInterpolator())
-                    .buildValidatorFactory()
-                    .getValidator();
+    private final ValidatorInstance Validator;
     private final ModelMapper mapper = Mappers.getMapper(ModelMapper.class);
 
-    public AuthorServiceImpl(BaseRepository<AuthorModel, Long> authorRepository) {
+    public AuthorServiceImpl(BaseRepository<AuthorModel, Long> authorRepository, ValidatorInstance validator) {
         this.authorRepository = authorRepository;
+        Validator = validator;
     }
 
     @Override
@@ -91,7 +88,7 @@ public class AuthorServiceImpl implements BaseService<AuthorDtoRequest, AuthorDt
     }
 
     private void validate(AuthorDtoRequest authorDto) throws ValidationException {
-        Set<ConstraintViolation<AuthorDtoRequest>> violations = VALIDATOR.validate(authorDto);
+        Set<ConstraintViolation<AuthorDtoRequest>> violations = Validator.getVALIDATOR().validate(authorDto);
         if (!violations.isEmpty()) {
             for (ConstraintViolation<AuthorDtoRequest> violation : violations) {
                 LOGGER.warning("Author " + violation.getPropertyPath() + ": " + violation.getMessage());

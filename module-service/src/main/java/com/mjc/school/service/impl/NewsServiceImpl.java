@@ -8,11 +8,9 @@ import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
 import com.mjc.school.service.exception.ServiceException;
 import com.mjc.school.service.mapper.ModelMapper;
+import com.mjc.school.service.validator.ValidatorInstance;
 import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
 import jakarta.validation.ValidationException;
-import jakarta.validation.Validator;
-import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
@@ -29,16 +27,12 @@ import static com.mjc.school.service.exception.ServiceErrorCode.NEWS_ID_DOES_NOT
 public class NewsServiceImpl implements BaseService<NewsDtoRequest, NewsDtoResponse, Long> {
     private static final Logger LOGGER = Logger.getLogger(NewsServiceImpl.class.getName());
     private final BaseRepository<NewsModel, Long> newsRepository;
-    private final Validator VALIDATOR =
-            Validation.byDefaultProvider()
-                    .configure()
-                    .messageInterpolator(new ParameterMessageInterpolator())
-                    .buildValidatorFactory()
-                    .getValidator();
+    private final ValidatorInstance Validator;
     private final ModelMapper mapper = Mappers.getMapper(ModelMapper.class);
 
-    public NewsServiceImpl(BaseRepository<NewsModel, Long> newsRepository) {
+    public NewsServiceImpl(BaseRepository<NewsModel, Long> newsRepository, ValidatorInstance Validator) {
         this.newsRepository = newsRepository;
+        this.Validator = Validator;
     }
 
     @Override
@@ -91,7 +85,7 @@ public class NewsServiceImpl implements BaseService<NewsDtoRequest, NewsDtoRespo
     }
 
     private void validate(NewsDtoRequest newsDto) throws ValidationException {
-        Set<ConstraintViolation<NewsDtoRequest>> violations = VALIDATOR.validate(newsDto);
+        Set<ConstraintViolation<NewsDtoRequest>> violations = Validator.getVALIDATOR().validate(newsDto);
         if (!violations.isEmpty()) {
             for (ConstraintViolation<NewsDtoRequest> violation : violations) {
                 LOGGER.warning("News " + violation.getPropertyPath() + ": " + violation.getMessage());
